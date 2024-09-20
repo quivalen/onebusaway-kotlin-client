@@ -15,7 +15,7 @@ configure<PublishingExtension> {
             from(components["java"])
 
             pom {
-                name.set("OneBusAway")
+                name.set("test1obw")
                 description.set("The OneBusAway REST API. For use with servers like\nhttps://api.pugetsound.onebusaway.org")
                 url.set("https://docs.test1obw-sdk.com")
 

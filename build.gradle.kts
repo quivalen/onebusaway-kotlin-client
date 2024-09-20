@@ -3,7 +3,7 @@ plugins {
 }
 
 allprojects {
-    group = "com.CONFIGURE_ME_test1obw_sdk.api"
+    group = "com.test1obw.api"
     version = "0.0.1-alpha.0" 
 }
 
