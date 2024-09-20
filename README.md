@@ -19,14 +19,14 @@ The REST API documentation can be found on [docs.test1obw-sdk.com](https://docs
 #### Gradle
 
 ```kotlin
-implementation("com.CONFIGURE_ME_test1obw_sdk.api:test1obw-sdk-kotlin:0.0.1-alpha.0")
+implementation("com.test1obw.api:test1obw-sdk-kotlin:0.0.1-alpha.0")
 ```
 
 #### Maven
 
 ```xml
 <dependency>
-    <groupId>com.CONFIGURE_ME_test1obw_sdk.api</groupId>
+    <groupId>com.test1obw.api</groupId>
     <artifactId>test1obw-sdk-kotlin</artifactId>
     <version>0.0.1-alpha.0</version>
 </dependency>
@@ -34,11 +34,32 @@ implementation("com.CONFIGURE_ME_test1obw_sdk.api:test1obw-sdk-kotlin:0.0.1-alph
 
 ### Configure the client
 
-Use `Test1obwSdkOkHttpClient.builder()` to configure the client.
+Use `Test1obwSdkOkHttpClient.builder()` to configure the client. At a minimum you need to set `.apiKey()`:
+
+```kotlin
+import com.test1obw.api.client.Test1obwSdkClient
+import com.test1obw.api.client.okhttp.Test1obwSdkOkHttpClient
+
+val client = Test1obwSdkOkHttpClient.builder()
+    .apiKey("My API Key")
+    .build()
+```
+
+Alternately, set the environment with `ONEBUSAWAY_API_KEY`, and use `Test1obwSdkOkHttpClient.fromEnv()` to read from the environment.
 
 ```kotlin
 val client = Test1obwSdkOkHttpClient.fromEnv()
+
+// Note: you can also call fromEnv() from the client builder, for example if you need to set additional properties
+val client = Test1obwSdkOkHttpClient.builder()
+    .fromEnv()
+    // ... set properties on the builder
+    .build()
 ```
+
+| Property | Environment variable | Required | Default value |
+| -------- | -------------------- | -------- | ------------- |
+| apiKey   | `ONEBUSAWAY_API_KEY` | true     | —             |
 
 Read the documentation for more configuration options.
 
@@ -50,8 +71,8 @@ To create a new current time, first use the `CurrentTimeRetrieveParams` builder 
 then pass that to the `retrieve` method of the `currentTime` service.
 
 ```kotlin
-import com.configure_me_test1obw_sdk.api.models.CurrentTimeRetrieveParams
-import com.configure_me_test1obw_sdk.api.models.CurrentTimeRetrieveResponse
+import com.test1obw.api.models.CurrentTimeRetrieveParams
+import com.test1obw.api.models.CurrentTimeRetrieveResponse
 
 val params = CurrentTimeRetrieveParams.builder().build()
 val currentTime = client.currentTime().retrieve(params)
@@ -72,7 +93,7 @@ Sometimes, the API may support other properties that are not yet supported in th
 you can attach them using the `putAdditionalProperty` method.
 
 ```kotlin
-import com.configure_me_test1obw_sdk.api.models.core.JsonValue
+import com.test1obw.api.models.core.JsonValue
 val params = CurrentTimeRetrieveParams.builder()
     // ... normal properties
     .putAdditionalProperty("secret_param", JsonValue.from("4242"))
@@ -116,7 +137,7 @@ if (field.isMissing()) {
 Sometimes, the server response may include additional properties that are not yet available in this library's types. You can access them using the model's `_additionalProperties` method:
 
 ```kotlin
-val secret = responseWrapper._additionalProperties().get("secret_field")
+val secret = references._additionalProperties().get("secret_field")
 ```
 
 ---
