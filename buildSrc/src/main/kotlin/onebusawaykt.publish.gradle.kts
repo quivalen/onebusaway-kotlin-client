@@ -33,9 +33,9 @@ configure<PublishingExtension> {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/stainless-sdks/onebusawaykt-kotlin.git")
-                    developerConnection.set("scm:git:git://github.com/stainless-sdks/onebusawaykt-kotlin.git")
-                    url.set("https://github.com/stainless-sdks/onebusawaykt-kotlin")
+                    connection.set("scm:git:git://github.com/quivalen/onebusaway-kotlin-client.git")
+                    developerConnection.set("scm:git:git://github.com/quivalen/onebusaway-kotlin-client.git")
+                    url.set("https://github.com/quivalen/onebusaway-kotlin-client")
                 }
 
                 versionMapping {
