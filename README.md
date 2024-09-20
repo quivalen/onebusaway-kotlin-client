@@ -21,7 +21,7 @@ The REST API documentation can be found on [docs.test1obw-sdk.com](https://docs
 <!-- x-release-please-start-version -->
 
 ```kotlin
-implementation("com.test1obw.api:test1obw-sdk-kotlin:0.0.1-alpha.0")
+implementation("com.test1obw.api:test1obw-sdk-kotlin:0.1.0-alpha.1")
 ```
 
 #### Maven
@@ -30,7 +30,7 @@ implementation("com.test1obw.api:test1obw-sdk-kotlin:0.0.1-alpha.0")
 <dependency>
     <groupId>com.test1obw.api</groupId>
     <artifactId>test1obw-sdk-kotlin</artifactId>
-    <version>0.0.1-alpha.0</version>
+    <version>0.1.0-alpha.1</version>
 </dependency>
 ```
 
