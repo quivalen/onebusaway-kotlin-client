@@ -4,15 +4,15 @@ package com.test1obw.api.services.blocking
 
 import com.test1obw.api.core.ClientOptions
 import com.test1obw.api.core.RequestOptions
+import com.test1obw.api.core.handlers.errorHandler
+import com.test1obw.api.core.handlers.jsonHandler
+import com.test1obw.api.core.handlers.withErrorHandler
 import com.test1obw.api.core.http.HttpMethod
 import com.test1obw.api.core.http.HttpRequest
 import com.test1obw.api.core.http.HttpResponse.Handler
 import com.test1obw.api.errors.Test1obwSdkError
 import com.test1obw.api.models.VehiclesForAgencyListParams
 import com.test1obw.api.models.VehiclesForAgencyListResponse
-import com.test1obw.api.services.errorHandler
-import com.test1obw.api.services.jsonHandler
-import com.test1obw.api.services.withErrorHandler
 
 class VehiclesForAgencyServiceImpl
 constructor(
@@ -33,7 +33,12 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("api", "where", "vehicles-for-agency", "{agencyID}.json")
+                .addPathSegments(
+                    "api",
+                    "where",
+                    "vehicles-for-agency",
+                    "${params.getPathParam(0)}.json"
+                )
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
