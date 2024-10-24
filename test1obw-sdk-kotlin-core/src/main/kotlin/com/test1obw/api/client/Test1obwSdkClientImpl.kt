@@ -3,18 +3,13 @@
 package com.test1obw.api.client
 
 import com.test1obw.api.core.ClientOptions
-import com.test1obw.api.core.http.HttpResponse.Handler
-import com.test1obw.api.errors.Test1obwSdkError
 import com.test1obw.api.models.*
 import com.test1obw.api.services.blocking.*
-import com.test1obw.api.services.errorHandler
 
 class Test1obwSdkClientImpl
 constructor(
     private val clientOptions: ClientOptions,
 ) : Test1obwSdkClient {
-
-    private val errorHandler: Handler<Test1obwSdkError> = errorHandler(clientOptions.jsonMapper)
 
     private val async: Test1obwSdkClientAsync by lazy { Test1obwSdkClientAsyncImpl(clientOptions) }
 
