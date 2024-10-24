@@ -4,15 +4,15 @@ package com.test1obw.api.services.async
 
 import com.test1obw.api.core.ClientOptions
 import com.test1obw.api.core.RequestOptions
+import com.test1obw.api.core.handlers.errorHandler
+import com.test1obw.api.core.handlers.jsonHandler
+import com.test1obw.api.core.handlers.withErrorHandler
 import com.test1obw.api.core.http.HttpMethod
 import com.test1obw.api.core.http.HttpRequest
 import com.test1obw.api.core.http.HttpResponse.Handler
 import com.test1obw.api.errors.Test1obwSdkError
 import com.test1obw.api.models.BlockRetrieveParams
 import com.test1obw.api.models.BlockRetrieveResponse
-import com.test1obw.api.services.errorHandler
-import com.test1obw.api.services.jsonHandler
-import com.test1obw.api.services.withErrorHandler
 
 class BlockServiceAsyncImpl
 constructor(
@@ -32,7 +32,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("api", "where", "block", "{blockID}.json")
+                .addPathSegments("api", "where", "block", "${params.getPathParam(0)}.json")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)

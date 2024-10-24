@@ -23,7 +23,7 @@ class Test1obwSdkOkHttpClientAsync private constructor() {
 
         private var clientOptions: ClientOptions.Builder = ClientOptions.builder()
         private var baseUrl: String = ClientOptions.PRODUCTION_URL
-        // default timeout for client is 1 minute
+        // The default timeout for the client is 1 minute.
         private var timeout: Duration = Duration.ofSeconds(60)
         private var proxy: Proxy? = null
 
@@ -66,8 +66,8 @@ class Test1obwSdkOkHttpClientAsync private constructor() {
 
         fun fromEnv() = apply { clientOptions.fromEnv() }
 
-        fun build(): Test1obwSdkClientAsync {
-            return Test1obwSdkClientAsyncImpl(
+        fun build(): Test1obwSdkClientAsync =
+            Test1obwSdkClientAsyncImpl(
                 clientOptions
                     .httpClient(
                         OkHttpClient.builder()
@@ -78,6 +78,5 @@ class Test1obwSdkOkHttpClientAsync private constructor() {
                     )
                     .build()
             )
-        }
     }
 }
