@@ -8,13 +8,8 @@ import com.google.common.collect.Multimaps
 import com.test1obw.api.errors.Test1obwSdkInvalidDataException
 import java.util.Collections
 
-internal fun <T : Any> T?.getOrThrow(name: String): T {
-    if (this == null) {
-        throw Test1obwSdkInvalidDataException("'${name}' is not present")
-    }
-
-    return this
-}
+internal fun <T : Any> T?.getOrThrow(name: String): T =
+    this ?: throw Test1obwSdkInvalidDataException("`${name}` is not present")
 
 internal fun <T> List<T>.toUnmodifiable(): List<T> {
     if (isEmpty()) {
