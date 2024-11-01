@@ -11,7 +11,7 @@ import com.test1obw.api.core.JsonField
 import com.test1obw.api.core.JsonMissing
 import com.test1obw.api.core.JsonValue
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import java.util.Objects
 
 @JsonDeserialize(builder = VehiclesForAgencyListResponse.Builder::class)
@@ -147,7 +147,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -247,10 +247,10 @@ private constructor(
 
             fun build(): Data =
                 Data(
-                    list.map { it.toUnmodifiable() },
+                    list.map { it.toImmutable() },
                     limitExceeded,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -494,7 +494,7 @@ private constructor(
                         occupancyStatus,
                         phase,
                         status,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -579,7 +579,7 @@ private constructor(
                         Location(
                             lat,
                             lon,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -1361,11 +1361,11 @@ private constructor(
                             scheduleDeviation,
                             scheduledDistanceAlongTrip,
                             serviceDate,
-                            situationIds.map { it.toUnmodifiable() },
+                            situationIds.map { it.toImmutable() },
                             status,
                             totalDistanceAlongTrip,
                             vehicleId,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -1460,7 +1460,7 @@ private constructor(
                             LastKnownLocation(
                                 lat,
                                 lon,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -1576,7 +1576,7 @@ private constructor(
                             Position(
                                 lat,
                                 lon,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 

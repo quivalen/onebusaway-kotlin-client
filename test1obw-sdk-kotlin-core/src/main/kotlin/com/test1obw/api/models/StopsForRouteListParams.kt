@@ -3,7 +3,7 @@
 package com.test1obw.api.models
 
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import com.test1obw.api.models.*
 import java.util.Objects
 
@@ -27,7 +27,7 @@ constructor(
         this.includePolylines?.let { params.put("includePolylines", listOf(it.toString())) }
         this.time?.let { params.put("time", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
+        return params.toImmutable()
     }
 
     internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
@@ -137,8 +137,8 @@ constructor(
                 checkNotNull(routeId) { "`routeId` is required but was not set" },
                 includePolylines,
                 time,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 }

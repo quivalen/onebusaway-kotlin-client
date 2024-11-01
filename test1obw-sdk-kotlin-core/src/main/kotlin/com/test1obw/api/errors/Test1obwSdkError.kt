@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.test1obw.api.core.JsonValue
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import java.util.Objects
 
 @JsonDeserialize(builder = Test1obwSdkError.Builder::class)
@@ -62,6 +62,6 @@ constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): Test1obwSdkError = Test1obwSdkError(additionalProperties.toUnmodifiable())
+        fun build(): Test1obwSdkError = Test1obwSdkError(additionalProperties.toImmutable())
     }
 }

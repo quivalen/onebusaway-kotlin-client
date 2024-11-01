@@ -11,7 +11,7 @@ import com.test1obw.api.core.JsonField
 import com.test1obw.api.core.JsonMissing
 import com.test1obw.api.core.JsonValue
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import java.util.Objects
 
 @JsonDeserialize(builder = TripsForLocationListResponse.Builder::class)
@@ -147,7 +147,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -270,10 +270,10 @@ private constructor(
             fun build(): Data =
                 Data(
                     limitExceeded,
-                    list.map { it.toUnmodifiable() },
+                    list.map { it.toImmutable() },
                     outOfRange,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -419,11 +419,11 @@ private constructor(
                     List(
                         frequency,
                         serviceDate,
-                        situationIds.map { it.toUnmodifiable() },
+                        situationIds.map { it.toImmutable() },
                         tripId,
                         schedule,
                         status,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -562,9 +562,9 @@ private constructor(
                             frequency,
                             nextTripId,
                             previousTripId,
-                            stopTimes.map { it.toUnmodifiable() },
+                            stopTimes.map { it.toImmutable() },
                             timeZone,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -732,7 +732,7 @@ private constructor(
                                 historicalOccupancy,
                                 stopHeadsign,
                                 stopId,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -1535,11 +1535,11 @@ private constructor(
                             scheduleDeviation,
                             scheduledDistanceAlongTrip,
                             serviceDate,
-                            situationIds.map { it.toUnmodifiable() },
+                            situationIds.map { it.toImmutable() },
                             status,
                             totalDistanceAlongTrip,
                             vehicleId,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -1634,7 +1634,7 @@ private constructor(
                             LastKnownLocation(
                                 lat,
                                 lon,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -1750,7 +1750,7 @@ private constructor(
                             Position(
                                 lat,
                                 lon,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
