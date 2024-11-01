@@ -11,7 +11,7 @@ import com.test1obw.api.core.JsonField
 import com.test1obw.api.core.JsonMissing
 import com.test1obw.api.core.JsonValue
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import java.util.Objects
 
 @JsonDeserialize(builder = StopsForRouteListResponse.Builder::class)
@@ -147,7 +147,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -233,7 +233,7 @@ private constructor(
                 Data(
                     entry,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -349,11 +349,11 @@ private constructor(
 
                 fun build(): Entry =
                     Entry(
-                        polylines.map { it.toUnmodifiable() },
+                        polylines.map { it.toImmutable() },
                         routeId,
-                        stopGroupings.map { it.toUnmodifiable() },
-                        stopIds.map { it.toUnmodifiable() },
-                        additionalProperties.toUnmodifiable(),
+                        stopGroupings.map { it.toImmutable() },
+                        stopIds.map { it.toImmutable() },
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -453,7 +453,7 @@ private constructor(
                             length,
                             levels,
                             points,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -589,9 +589,9 @@ private constructor(
                         StopGrouping(
                             id,
                             name,
-                            polylines.map { it.toUnmodifiable() },
-                            stopIds.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable(),
+                            polylines.map { it.toImmutable() },
+                            stopIds.map { it.toImmutable() },
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -690,9 +690,9 @@ private constructor(
                         fun build(): Name =
                             Name(
                                 name,
-                                names.map { it.toUnmodifiable() },
+                                names.map { it.toImmutable() },
                                 type,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -814,7 +814,7 @@ private constructor(
                                 length,
                                 levels,
                                 points,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
