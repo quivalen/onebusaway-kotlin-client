@@ -11,7 +11,7 @@ import com.test1obw.api.core.JsonField
 import com.test1obw.api.core.JsonMissing
 import com.test1obw.api.core.JsonValue
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import java.util.Objects
 
 @JsonDeserialize(builder = AgenciesWithCoverageListResponse.Builder::class)
@@ -148,7 +148,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -249,9 +249,9 @@ private constructor(
             fun build(): Data =
                 Data(
                     limitExceeded,
-                    list.map { it.toUnmodifiable() },
+                    list.map { it.toImmutable() },
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -381,7 +381,7 @@ private constructor(
                         latSpan,
                         lon,
                         lonSpan,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 

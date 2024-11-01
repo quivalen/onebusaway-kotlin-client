@@ -3,7 +3,7 @@
 package com.test1obw.api.models
 
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import com.test1obw.api.models.*
 import java.util.Objects
 
@@ -24,7 +24,7 @@ constructor(
         this.input.let { params.put("input", listOf(it.toString())) }
         this.maxCount?.let { params.put("maxCount", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
+        return params.toImmutable()
     }
 
     internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
@@ -120,8 +120,8 @@ constructor(
             SearchForRouteListParams(
                 checkNotNull(input) { "`input` is required but was not set" },
                 maxCount,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 }

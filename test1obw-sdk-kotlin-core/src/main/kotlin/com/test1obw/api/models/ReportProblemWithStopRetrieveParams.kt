@@ -7,7 +7,7 @@ import com.test1obw.api.core.Enum
 import com.test1obw.api.core.JsonField
 import com.test1obw.api.core.JsonValue
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import com.test1obw.api.errors.Test1obwSdkInvalidDataException
 import com.test1obw.api.models.*
 import java.util.Objects
@@ -44,7 +44,7 @@ constructor(
         this.userLocationAccuracy?.let { params.put("userLocationAccuracy", listOf(it.toString())) }
         this.userLon?.let { params.put("userLon", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
+        return params.toImmutable()
     }
 
     internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
@@ -174,8 +174,8 @@ constructor(
                 userLat,
                 userLocationAccuracy,
                 userLon,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 
