@@ -3,7 +3,8 @@
 package com.test1obw.api.models
 
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toImmutable
+import com.test1obw.api.core.http.Headers
+import com.test1obw.api.core.http.QueryParams
 import com.test1obw.api.models.*
 import java.util.Objects
 
@@ -16,8 +17,8 @@ constructor(
     private val includeSchedule: Boolean?,
     private val includeTrip: Boolean?,
     private val time: Long?,
-    private val additionalQueryParams: Map<String, List<String>>,
-    private val additionalHeaders: Map<String, List<String>>,
+    private val additionalHeaders: Headers,
+    private val additionalQueryParams: QueryParams,
 ) {
 
     fun lat(): Double = lat
@@ -34,39 +35,39 @@ constructor(
 
     fun time(): Long? = time
 
-    internal fun getQueryParams(): Map<String, List<String>> {
-        val params = mutableMapOf<String, List<String>>()
-        this.lat.let { params.put("lat", listOf(it.toString())) }
-        this.latSpan.let { params.put("latSpan", listOf(it.toString())) }
-        this.lon.let { params.put("lon", listOf(it.toString())) }
-        this.lonSpan.let { params.put("lonSpan", listOf(it.toString())) }
-        this.includeSchedule?.let { params.put("includeSchedule", listOf(it.toString())) }
-        this.includeTrip?.let { params.put("includeTrip", listOf(it.toString())) }
-        this.time?.let { params.put("time", listOf(it.toString())) }
-        params.putAll(additionalQueryParams)
-        return params.toImmutable()
+    internal fun getHeaders(): Headers = additionalHeaders
+
+    internal fun getQueryParams(): QueryParams {
+        val queryParams = QueryParams.builder()
+        this.lat.let { queryParams.put("lat", listOf(it.toString())) }
+        this.latSpan.let { queryParams.put("latSpan", listOf(it.toString())) }
+        this.lon.let { queryParams.put("lon", listOf(it.toString())) }
+        this.lonSpan.let { queryParams.put("lonSpan", listOf(it.toString())) }
+        this.includeSchedule?.let { queryParams.put("includeSchedule", listOf(it.toString())) }
+        this.includeTrip?.let { queryParams.put("includeTrip", listOf(it.toString())) }
+        this.time?.let { queryParams.put("time", listOf(it.toString())) }
+        queryParams.putAll(additionalQueryParams)
+        return queryParams.build()
     }
 
-    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    fun _additionalHeaders(): Headers = additionalHeaders
 
-    fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
-
-    fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return /* spotless:off */ other is TripsForLocationListParams && this.lat == other.lat && this.latSpan == other.latSpan && this.lon == other.lon && this.lonSpan == other.lonSpan && this.includeSchedule == other.includeSchedule && this.includeTrip == other.includeTrip && this.time == other.time && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
+        return /* spotless:off */ other is TripsForLocationListParams && this.lat == other.lat && this.latSpan == other.latSpan && this.lon == other.lon && this.lonSpan == other.lonSpan && this.includeSchedule == other.includeSchedule && this.includeTrip == other.includeTrip && this.time == other.time && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(lat, latSpan, lon, lonSpan, includeSchedule, includeTrip, time, additionalQueryParams, additionalHeaders) /* spotless:on */
+        return /* spotless:off */ Objects.hash(lat, latSpan, lon, lonSpan, includeSchedule, includeTrip, time, additionalHeaders, additionalQueryParams) /* spotless:on */
     }
 
     override fun toString() =
-        "TripsForLocationListParams{lat=$lat, latSpan=$latSpan, lon=$lon, lonSpan=$lonSpan, includeSchedule=$includeSchedule, includeTrip=$includeTrip, time=$time, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "TripsForLocationListParams{lat=$lat, latSpan=$latSpan, lon=$lon, lonSpan=$lonSpan, includeSchedule=$includeSchedule, includeTrip=$includeTrip, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -85,8 +86,8 @@ constructor(
         private var includeSchedule: Boolean? = null
         private var includeTrip: Boolean? = null
         private var time: Long? = null
-        private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
-        private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
+        private var additionalHeaders: Headers.Builder = Headers.builder()
+        private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(tripsForLocationListParams: TripsForLocationListParams) = apply {
             this.lat = tripsForLocationListParams.lat
@@ -96,8 +97,8 @@ constructor(
             this.includeSchedule = tripsForLocationListParams.includeSchedule
             this.includeTrip = tripsForLocationListParams.includeTrip
             this.time = tripsForLocationListParams.time
-            additionalQueryParams(tripsForLocationListParams.additionalQueryParams)
             additionalHeaders(tripsForLocationListParams.additionalHeaders)
+            additionalQueryParams(tripsForLocationListParams.additionalQueryParams)
         }
 
         /** The latitude coordinate of the search center */
@@ -125,45 +126,103 @@ constructor(
         /** Specific time for the query. Defaults to the current time. */
         fun time(time: Long) = apply { this.time = time }
 
-        fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
-            this.additionalQueryParams.clear()
-            putAllQueryParams(additionalQueryParams)
-        }
-
-        fun putQueryParam(name: String, value: String) = apply {
-            this.additionalQueryParams.getOrPut(name) { mutableListOf() }.add(value)
-        }
-
-        fun putQueryParams(name: String, values: Iterable<String>) = apply {
-            this.additionalQueryParams.getOrPut(name) { mutableListOf() }.addAll(values)
-        }
-
-        fun putAllQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
-            additionalQueryParams.forEach(this::putQueryParams)
-        }
-
-        fun removeQueryParam(name: String) = apply {
-            this.additionalQueryParams.put(name, mutableListOf())
+        fun additionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.clear()
+            putAllAdditionalHeaders(additionalHeaders)
         }
 
         fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
             this.additionalHeaders.clear()
-            putAllHeaders(additionalHeaders)
+            putAllAdditionalHeaders(additionalHeaders)
         }
 
-        fun putHeader(name: String, value: String) = apply {
-            this.additionalHeaders.getOrPut(name) { mutableListOf() }.add(value)
+        fun putAdditionalHeader(name: String, value: String) = apply {
+            additionalHeaders.put(name, value)
         }
 
-        fun putHeaders(name: String, values: Iterable<String>) = apply {
-            this.additionalHeaders.getOrPut(name) { mutableListOf() }.addAll(values)
+        fun putAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.put(name, values)
         }
 
-        fun putAllHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            additionalHeaders.forEach(this::putHeaders)
+        fun putAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
+        fun putAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
+        }
+
+        fun replaceAdditionalHeaders(name: String, value: String) = apply {
+            additionalHeaders.replace(name, value)
+        }
+
+        fun replaceAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.replace(name, values)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
+        }
+
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+
+        fun removeAllAdditionalHeaders(names: Set<String>) = apply {
+            additionalHeaders.removeAll(names)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun putAdditionalQueryParam(key: String, value: String) = apply {
+            additionalQueryParams.put(key, value)
+        }
+
+        fun putAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.put(key, values)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.putAll(additionalQueryParams)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
+
+        fun replaceAdditionalQueryParams(key: String, value: String) = apply {
+            additionalQueryParams.replace(key, value)
+        }
+
+        fun replaceAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.replace(key, values)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.replaceAll(additionalQueryParams)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                this.additionalQueryParams.replaceAll(additionalQueryParams)
+            }
+
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+
+        fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
+            additionalQueryParams.removeAll(keys)
+        }
 
         fun build(): TripsForLocationListParams =
             TripsForLocationListParams(
@@ -174,8 +233,8 @@ constructor(
                 includeSchedule,
                 includeTrip,
                 time,
-                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
-                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.build(),
+                additionalQueryParams.build(),
             )
     }
 }

@@ -2,6 +2,7 @@
 
 package com.test1obw.api.models
 
+import com.test1obw.api.core.http.QueryParams
 import com.test1obw.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -27,18 +28,18 @@ class TripsForRouteListParamsTest {
                 .includeStatus(true)
                 .time(123L)
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("includeSchedule", listOf("true"))
-        expected.put("includeStatus", listOf("true"))
-        expected.put("time", listOf("123"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("includeSchedule", "true")
+        expected.put("includeStatus", "true")
+        expected.put("time", "123")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params = TripsForRouteListParams.builder().routeId("routeID").build()
-        val expected = mutableMapOf<String, List<String>>()
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
