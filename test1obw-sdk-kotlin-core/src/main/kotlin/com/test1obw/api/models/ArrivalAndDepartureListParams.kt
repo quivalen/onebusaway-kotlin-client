@@ -3,7 +3,8 @@
 package com.test1obw.api.models
 
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toImmutable
+import com.test1obw.api.core.http.Headers
+import com.test1obw.api.core.http.QueryParams
 import com.test1obw.api.models.*
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
@@ -15,8 +16,8 @@ constructor(
     private val minutesAfter: Long?,
     private val minutesBefore: Long?,
     private val time: OffsetDateTime?,
-    private val additionalQueryParams: Map<String, List<String>>,
-    private val additionalHeaders: Map<String, List<String>>,
+    private val additionalHeaders: Headers,
+    private val additionalQueryParams: QueryParams,
 ) {
 
     fun stopId(): String = stopId
@@ -27,18 +28,18 @@ constructor(
 
     fun time(): OffsetDateTime? = time
 
-    internal fun getQueryParams(): Map<String, List<String>> {
-        val params = mutableMapOf<String, List<String>>()
-        this.minutesAfter?.let { params.put("minutesAfter", listOf(it.toString())) }
-        this.minutesBefore?.let { params.put("minutesBefore", listOf(it.toString())) }
-        this.time?.let {
-            params.put("time", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
-        }
-        params.putAll(additionalQueryParams)
-        return params.toImmutable()
-    }
+    internal fun getHeaders(): Headers = additionalHeaders
 
-    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    internal fun getQueryParams(): QueryParams {
+        val queryParams = QueryParams.builder()
+        this.minutesAfter?.let { queryParams.put("minutesAfter", listOf(it.toString())) }
+        this.minutesBefore?.let { queryParams.put("minutesBefore", listOf(it.toString())) }
+        this.time?.let {
+            queryParams.put("time", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
+        }
+        queryParams.putAll(additionalQueryParams)
+        return queryParams.build()
+    }
 
     fun getPathParam(index: Int): String {
         return when (index) {
@@ -47,24 +48,24 @@ constructor(
         }
     }
 
-    fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
+    fun _additionalHeaders(): Headers = additionalHeaders
 
-    fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return /* spotless:off */ other is ArrivalAndDepartureListParams && this.stopId == other.stopId && this.minutesAfter == other.minutesAfter && this.minutesBefore == other.minutesBefore && this.time == other.time && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
+        return /* spotless:off */ other is ArrivalAndDepartureListParams && this.stopId == other.stopId && this.minutesAfter == other.minutesAfter && this.minutesBefore == other.minutesBefore && this.time == other.time && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(stopId, minutesAfter, minutesBefore, time, additionalQueryParams, additionalHeaders) /* spotless:on */
+        return /* spotless:off */ Objects.hash(stopId, minutesAfter, minutesBefore, time, additionalHeaders, additionalQueryParams) /* spotless:on */
     }
 
     override fun toString() =
-        "ArrivalAndDepartureListParams{stopId=$stopId, minutesAfter=$minutesAfter, minutesBefore=$minutesBefore, time=$time, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "ArrivalAndDepartureListParams{stopId=$stopId, minutesAfter=$minutesAfter, minutesBefore=$minutesBefore, time=$time, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -80,16 +81,16 @@ constructor(
         private var minutesAfter: Long? = null
         private var minutesBefore: Long? = null
         private var time: OffsetDateTime? = null
-        private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
-        private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
+        private var additionalHeaders: Headers.Builder = Headers.builder()
+        private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         internal fun from(arrivalAndDepartureListParams: ArrivalAndDepartureListParams) = apply {
             this.stopId = arrivalAndDepartureListParams.stopId
             this.minutesAfter = arrivalAndDepartureListParams.minutesAfter
             this.minutesBefore = arrivalAndDepartureListParams.minutesBefore
             this.time = arrivalAndDepartureListParams.time
-            additionalQueryParams(arrivalAndDepartureListParams.additionalQueryParams)
             additionalHeaders(arrivalAndDepartureListParams.additionalHeaders)
+            additionalQueryParams(arrivalAndDepartureListParams.additionalQueryParams)
         }
 
         fun stopId(stopId: String) = apply { this.stopId = stopId }
@@ -103,45 +104,103 @@ constructor(
         /** The specific time for querying the system status. */
         fun time(time: OffsetDateTime) = apply { this.time = time }
 
-        fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
-            this.additionalQueryParams.clear()
-            putAllQueryParams(additionalQueryParams)
-        }
-
-        fun putQueryParam(name: String, value: String) = apply {
-            this.additionalQueryParams.getOrPut(name) { mutableListOf() }.add(value)
-        }
-
-        fun putQueryParams(name: String, values: Iterable<String>) = apply {
-            this.additionalQueryParams.getOrPut(name) { mutableListOf() }.addAll(values)
-        }
-
-        fun putAllQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
-            additionalQueryParams.forEach(this::putQueryParams)
-        }
-
-        fun removeQueryParam(name: String) = apply {
-            this.additionalQueryParams.put(name, mutableListOf())
+        fun additionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.clear()
+            putAllAdditionalHeaders(additionalHeaders)
         }
 
         fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
             this.additionalHeaders.clear()
-            putAllHeaders(additionalHeaders)
+            putAllAdditionalHeaders(additionalHeaders)
         }
 
-        fun putHeader(name: String, value: String) = apply {
-            this.additionalHeaders.getOrPut(name) { mutableListOf() }.add(value)
+        fun putAdditionalHeader(name: String, value: String) = apply {
+            additionalHeaders.put(name, value)
         }
 
-        fun putHeaders(name: String, values: Iterable<String>) = apply {
-            this.additionalHeaders.getOrPut(name) { mutableListOf() }.addAll(values)
+        fun putAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.put(name, values)
         }
 
-        fun putAllHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            additionalHeaders.forEach(this::putHeaders)
+        fun putAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
+        fun putAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
+        }
+
+        fun replaceAdditionalHeaders(name: String, value: String) = apply {
+            additionalHeaders.replace(name, value)
+        }
+
+        fun replaceAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.replace(name, values)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
+        }
+
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
+
+        fun removeAllAdditionalHeaders(names: Set<String>) = apply {
+            additionalHeaders.removeAll(names)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun putAdditionalQueryParam(key: String, value: String) = apply {
+            additionalQueryParams.put(key, value)
+        }
+
+        fun putAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.put(key, values)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.putAll(additionalQueryParams)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
+
+        fun replaceAdditionalQueryParams(key: String, value: String) = apply {
+            additionalQueryParams.replace(key, value)
+        }
+
+        fun replaceAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.replace(key, values)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.replaceAll(additionalQueryParams)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                this.additionalQueryParams.replaceAll(additionalQueryParams)
+            }
+
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
+
+        fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
+            additionalQueryParams.removeAll(keys)
+        }
 
         fun build(): ArrivalAndDepartureListParams =
             ArrivalAndDepartureListParams(
@@ -149,8 +208,8 @@ constructor(
                 minutesAfter,
                 minutesBefore,
                 time,
-                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
-                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.build(),
+                additionalQueryParams.build(),
             )
     }
 }
