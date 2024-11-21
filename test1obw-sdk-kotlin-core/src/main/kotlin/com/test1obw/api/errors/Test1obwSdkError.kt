@@ -22,12 +22,10 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Test1obwSdkError && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Test1obwSdkError && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(additionalProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(additionalProperties) /* spotless:on */
 
     override fun toString() = "Test1obwSdkError{additionalProperties=$additionalProperties}"
 
