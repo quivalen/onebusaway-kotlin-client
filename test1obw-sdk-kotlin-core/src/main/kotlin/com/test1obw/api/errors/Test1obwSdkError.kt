@@ -17,18 +17,6 @@ private constructor(
     @JsonAnyGetter val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is Test1obwSdkError && additionalProperties == other.additionalProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(additionalProperties) /* spotless:on */
-
-    override fun toString() = "Test1obwSdkError{additionalProperties=$additionalProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -66,4 +54,16 @@ private constructor(
 
         fun build(): Test1obwSdkError = Test1obwSdkError(additionalProperties.toImmutable())
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is Test1obwSdkError && additionalProperties == other.additionalProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(additionalProperties) /* spotless:on */
+
+    override fun toString() = "Test1obwSdkError{additionalProperties=$additionalProperties}"
 }
