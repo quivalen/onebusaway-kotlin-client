@@ -11,7 +11,7 @@ import com.test1obw.api.core.JsonField
 import com.test1obw.api.core.JsonMissing
 import com.test1obw.api.core.JsonValue
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import java.util.Objects
 
 @JsonDeserialize(builder = StopIdsForAgencyListResponse.Builder::class)
@@ -27,8 +27,6 @@ private constructor(
 ) {
 
     private var validated: Boolean = false
-
-    private var hashCode: Int = 0
 
     fun code(): Long = code.getRequired("code")
 
@@ -74,38 +72,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is StopIdsForAgencyListResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "StopIdsForAgencyListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -181,7 +147,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -196,8 +162,6 @@ private constructor(
     ) {
 
         private var validated: Boolean = false
-
-        private var hashCode: Int = 0
 
         fun limitExceeded(): Boolean = limitExceeded.getRequired("limitExceeded")
 
@@ -225,34 +189,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Data &&
-                this.limitExceeded == other.limitExceeded &&
-                this.list == other.list &&
-                this.references == other.references &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        limitExceeded,
-                        list,
-                        references,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "Data{limitExceeded=$limitExceeded, list=$list, references=$references, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -312,10 +248,44 @@ private constructor(
             fun build(): Data =
                 Data(
                     limitExceeded,
-                    list.map { it.toUnmodifiable() },
+                    list.map { it.toImmutable() },
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Data && limitExceeded == other.limitExceeded && list == other.list && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(limitExceeded, list, references, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Data{limitExceeded=$limitExceeded, list=$list, references=$references, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is StopIdsForAgencyListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+    }
+
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
+    /* spotless:on */
+
+    override fun hashCode(): Int = hashCode
+
+    override fun toString() =
+        "StopIdsForAgencyListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 }

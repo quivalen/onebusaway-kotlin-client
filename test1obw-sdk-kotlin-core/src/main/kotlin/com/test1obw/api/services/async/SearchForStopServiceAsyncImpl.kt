@@ -4,15 +4,15 @@ package com.test1obw.api.services.async
 
 import com.test1obw.api.core.ClientOptions
 import com.test1obw.api.core.RequestOptions
+import com.test1obw.api.core.handlers.errorHandler
+import com.test1obw.api.core.handlers.jsonHandler
+import com.test1obw.api.core.handlers.withErrorHandler
 import com.test1obw.api.core.http.HttpMethod
 import com.test1obw.api.core.http.HttpRequest
 import com.test1obw.api.core.http.HttpResponse.Handler
 import com.test1obw.api.errors.Test1obwSdkError
 import com.test1obw.api.models.SearchForStopListParams
 import com.test1obw.api.models.SearchForStopListResponse
-import com.test1obw.api.services.errorHandler
-import com.test1obw.api.services.jsonHandler
-import com.test1obw.api.services.withErrorHandler
 
 class SearchForStopServiceAsyncImpl
 constructor(
@@ -35,9 +35,9 @@ constructor(
                 .method(HttpMethod.GET)
                 .addPathSegments("api", "where", "search", "stop.json")
                 .putAllQueryParams(clientOptions.queryParams)
-                .putAllQueryParams(params.getQueryParams())
+                .replaceAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
-                .putAllHeaders(params.getHeaders())
+                .replaceAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.executeAsync(request, requestOptions).let { response ->
             response

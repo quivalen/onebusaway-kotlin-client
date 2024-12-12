@@ -11,7 +11,7 @@ import com.test1obw.api.core.JsonField
 import com.test1obw.api.core.JsonMissing
 import com.test1obw.api.core.JsonValue
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import java.util.Objects
 
 @JsonDeserialize(builder = BlockRetrieveResponse.Builder::class)
@@ -27,8 +27,6 @@ private constructor(
 ) {
 
     private var validated: Boolean = false
-
-    private var hashCode: Int = 0
 
     fun code(): Long = code.getRequired("code")
 
@@ -74,38 +72,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is BlockRetrieveResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "BlockRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -181,7 +147,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -195,8 +161,6 @@ private constructor(
     ) {
 
         private var validated: Boolean = false
-
-        private var hashCode: Int = 0
 
         fun entry(): Entry = entry.getRequired("entry")
 
@@ -219,32 +183,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Data &&
-                this.entry == other.entry &&
-                this.references == other.references &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        entry,
-                        references,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -295,7 +233,7 @@ private constructor(
                 Data(
                     entry,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -309,8 +247,6 @@ private constructor(
         ) {
 
             private var validated: Boolean = false
-
-            private var hashCode: Int = 0
 
             fun id(): String = id.getRequired("id")
 
@@ -333,32 +269,6 @@ private constructor(
             }
 
             fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Entry &&
-                    this.id == other.id &&
-                    this.configurations == other.configurations &&
-                    this.additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            id,
-                            configurations,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "Entry{id=$id, configurations=$configurations, additionalProperties=$additionalProperties}"
 
             companion object {
 
@@ -410,8 +320,8 @@ private constructor(
                 fun build(): Entry =
                     Entry(
                         id,
-                        configurations.map { it.toUnmodifiable() },
-                        additionalProperties.toUnmodifiable(),
+                        configurations.map { it.toImmutable() },
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -426,8 +336,6 @@ private constructor(
             ) {
 
                 private var validated: Boolean = false
-
-                private var hashCode: Int = 0
 
                 fun activeServiceIds(): List<String> =
                     activeServiceIds.getRequired("activeServiceIds")
@@ -461,34 +369,6 @@ private constructor(
                 }
 
                 fun toBuilder() = Builder().from(this)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is Configuration &&
-                        this.activeServiceIds == other.activeServiceIds &&
-                        this.inactiveServiceIds == other.inactiveServiceIds &&
-                        this.trips == other.trips &&
-                        this.additionalProperties == other.additionalProperties
-                }
-
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                activeServiceIds,
-                                inactiveServiceIds,
-                                trips,
-                                additionalProperties,
-                            )
-                    }
-                    return hashCode
-                }
-
-                override fun toString() =
-                    "Configuration{activeServiceIds=$activeServiceIds, inactiveServiceIds=$inactiveServiceIds, trips=$trips, additionalProperties=$additionalProperties}"
 
                 companion object {
 
@@ -550,10 +430,10 @@ private constructor(
 
                     fun build(): Configuration =
                         Configuration(
-                            activeServiceIds.map { it.toUnmodifiable() },
-                            inactiveServiceIds.map { it.toUnmodifiable() },
-                            trips.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable(),
+                            activeServiceIds.map { it.toImmutable() },
+                            inactiveServiceIds.map { it.toImmutable() },
+                            trips.map { it.toImmutable() },
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -569,8 +449,6 @@ private constructor(
                 ) {
 
                     private var validated: Boolean = false
-
-                    private var hashCode: Int = 0
 
                     fun tripId(): String = tripId.getRequired("tripId")
 
@@ -612,36 +490,6 @@ private constructor(
                     }
 
                     fun toBuilder() = Builder().from(this)
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is Trip &&
-                            this.tripId == other.tripId &&
-                            this.distanceAlongBlock == other.distanceAlongBlock &&
-                            this.accumulatedSlackTime == other.accumulatedSlackTime &&
-                            this.blockStopTimes == other.blockStopTimes &&
-                            this.additionalProperties == other.additionalProperties
-                    }
-
-                    override fun hashCode(): Int {
-                        if (hashCode == 0) {
-                            hashCode =
-                                Objects.hash(
-                                    tripId,
-                                    distanceAlongBlock,
-                                    accumulatedSlackTime,
-                                    blockStopTimes,
-                                    additionalProperties,
-                                )
-                        }
-                        return hashCode
-                    }
-
-                    override fun toString() =
-                        "Trip{tripId=$tripId, distanceAlongBlock=$distanceAlongBlock, accumulatedSlackTime=$accumulatedSlackTime, blockStopTimes=$blockStopTimes, additionalProperties=$additionalProperties}"
 
                     companion object {
 
@@ -719,8 +567,8 @@ private constructor(
                                 tripId,
                                 distanceAlongBlock,
                                 accumulatedSlackTime,
-                                blockStopTimes.map { it.toUnmodifiable() },
-                                additionalProperties.toUnmodifiable(),
+                                blockStopTimes.map { it.toImmutable() },
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -736,8 +584,6 @@ private constructor(
                     ) {
 
                         private var validated: Boolean = false
-
-                        private var hashCode: Int = 0
 
                         fun blockSequence(): Long = blockSequence.getRequired("blockSequence")
 
@@ -778,36 +624,6 @@ private constructor(
                         }
 
                         fun toBuilder() = Builder().from(this)
-
-                        override fun equals(other: Any?): Boolean {
-                            if (this === other) {
-                                return true
-                            }
-
-                            return other is BlockStopTime &&
-                                this.blockSequence == other.blockSequence &&
-                                this.distanceAlongBlock == other.distanceAlongBlock &&
-                                this.accumulatedSlackTime == other.accumulatedSlackTime &&
-                                this.stopTime == other.stopTime &&
-                                this.additionalProperties == other.additionalProperties
-                        }
-
-                        override fun hashCode(): Int {
-                            if (hashCode == 0) {
-                                hashCode =
-                                    Objects.hash(
-                                        blockSequence,
-                                        distanceAlongBlock,
-                                        accumulatedSlackTime,
-                                        stopTime,
-                                        additionalProperties,
-                                    )
-                            }
-                            return hashCode
-                        }
-
-                        override fun toString() =
-                            "BlockStopTime{blockSequence=$blockSequence, distanceAlongBlock=$distanceAlongBlock, accumulatedSlackTime=$accumulatedSlackTime, stopTime=$stopTime, additionalProperties=$additionalProperties}"
 
                         companion object {
 
@@ -888,7 +704,7 @@ private constructor(
                                     distanceAlongBlock,
                                     accumulatedSlackTime,
                                     stopTime,
-                                    additionalProperties.toUnmodifiable(),
+                                    additionalProperties.toImmutable(),
                                 )
                         }
 
@@ -905,8 +721,6 @@ private constructor(
                         ) {
 
                             private var validated: Boolean = false
-
-                            private var hashCode: Int = 0
 
                             fun stopId(): String = stopId.getRequired("stopId")
 
@@ -953,38 +767,6 @@ private constructor(
                             }
 
                             fun toBuilder() = Builder().from(this)
-
-                            override fun equals(other: Any?): Boolean {
-                                if (this === other) {
-                                    return true
-                                }
-
-                                return other is StopTime &&
-                                    this.stopId == other.stopId &&
-                                    this.arrivalTime == other.arrivalTime &&
-                                    this.departureTime == other.departureTime &&
-                                    this.pickupType == other.pickupType &&
-                                    this.dropOffType == other.dropOffType &&
-                                    this.additionalProperties == other.additionalProperties
-                            }
-
-                            override fun hashCode(): Int {
-                                if (hashCode == 0) {
-                                    hashCode =
-                                        Objects.hash(
-                                            stopId,
-                                            arrivalTime,
-                                            departureTime,
-                                            pickupType,
-                                            dropOffType,
-                                            additionalProperties,
-                                        )
-                                }
-                                return hashCode
-                            }
-
-                            override fun toString() =
-                                "StopTime{stopId=$stopId, arrivalTime=$arrivalTime, departureTime=$departureTime, pickupType=$pickupType, dropOffType=$dropOffType, additionalProperties=$additionalProperties}"
 
                             companion object {
 
@@ -1077,13 +859,132 @@ private constructor(
                                         departureTime,
                                         pickupType,
                                         dropOffType,
-                                        additionalProperties.toUnmodifiable(),
+                                        additionalProperties.toImmutable(),
                                     )
                             }
+
+                            override fun equals(other: Any?): Boolean {
+                                if (this === other) {
+                                    return true
+                                }
+
+                                return /* spotless:off */ other is StopTime && stopId == other.stopId && arrivalTime == other.arrivalTime && departureTime == other.departureTime && pickupType == other.pickupType && dropOffType == other.dropOffType && additionalProperties == other.additionalProperties /* spotless:on */
+                            }
+
+                            /* spotless:off */
+                            private val hashCode: Int by lazy { Objects.hash(stopId, arrivalTime, departureTime, pickupType, dropOffType, additionalProperties) }
+                            /* spotless:on */
+
+                            override fun hashCode(): Int = hashCode
+
+                            override fun toString() =
+                                "StopTime{stopId=$stopId, arrivalTime=$arrivalTime, departureTime=$departureTime, pickupType=$pickupType, dropOffType=$dropOffType, additionalProperties=$additionalProperties}"
                         }
+
+                        override fun equals(other: Any?): Boolean {
+                            if (this === other) {
+                                return true
+                            }
+
+                            return /* spotless:off */ other is BlockStopTime && blockSequence == other.blockSequence && distanceAlongBlock == other.distanceAlongBlock && accumulatedSlackTime == other.accumulatedSlackTime && stopTime == other.stopTime && additionalProperties == other.additionalProperties /* spotless:on */
+                        }
+
+                        /* spotless:off */
+                        private val hashCode: Int by lazy { Objects.hash(blockSequence, distanceAlongBlock, accumulatedSlackTime, stopTime, additionalProperties) }
+                        /* spotless:on */
+
+                        override fun hashCode(): Int = hashCode
+
+                        override fun toString() =
+                            "BlockStopTime{blockSequence=$blockSequence, distanceAlongBlock=$distanceAlongBlock, accumulatedSlackTime=$accumulatedSlackTime, stopTime=$stopTime, additionalProperties=$additionalProperties}"
                     }
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return /* spotless:off */ other is Trip && tripId == other.tripId && distanceAlongBlock == other.distanceAlongBlock && accumulatedSlackTime == other.accumulatedSlackTime && blockStopTimes == other.blockStopTimes && additionalProperties == other.additionalProperties /* spotless:on */
+                    }
+
+                    /* spotless:off */
+                    private val hashCode: Int by lazy { Objects.hash(tripId, distanceAlongBlock, accumulatedSlackTime, blockStopTimes, additionalProperties) }
+                    /* spotless:on */
+
+                    override fun hashCode(): Int = hashCode
+
+                    override fun toString() =
+                        "Trip{tripId=$tripId, distanceAlongBlock=$distanceAlongBlock, accumulatedSlackTime=$accumulatedSlackTime, blockStopTimes=$blockStopTimes, additionalProperties=$additionalProperties}"
                 }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Configuration && activeServiceIds == other.activeServiceIds && inactiveServiceIds == other.inactiveServiceIds && trips == other.trips && additionalProperties == other.additionalProperties /* spotless:on */
+                }
+
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(activeServiceIds, inactiveServiceIds, trips, additionalProperties) }
+                /* spotless:on */
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "Configuration{activeServiceIds=$activeServiceIds, inactiveServiceIds=$inactiveServiceIds, trips=$trips, additionalProperties=$additionalProperties}"
             }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is Entry && id == other.id && configurations == other.configurations && additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(id, configurations, additionalProperties) }
+            /* spotless:on */
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Entry{id=$id, configurations=$configurations, additionalProperties=$additionalProperties}"
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is BlockRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+    }
+
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
+    /* spotless:on */
+
+    override fun hashCode(): Int = hashCode
+
+    override fun toString() =
+        "BlockRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 }

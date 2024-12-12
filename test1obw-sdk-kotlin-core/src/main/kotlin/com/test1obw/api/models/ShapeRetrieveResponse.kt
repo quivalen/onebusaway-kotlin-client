@@ -11,7 +11,7 @@ import com.test1obw.api.core.JsonField
 import com.test1obw.api.core.JsonMissing
 import com.test1obw.api.core.JsonValue
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import java.util.Objects
 
 @JsonDeserialize(builder = ShapeRetrieveResponse.Builder::class)
@@ -27,8 +27,6 @@ private constructor(
 ) {
 
     private var validated: Boolean = false
-
-    private var hashCode: Int = 0
 
     fun code(): Long = code.getRequired("code")
 
@@ -74,38 +72,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is ShapeRetrieveResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "ShapeRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -181,7 +147,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -195,8 +161,6 @@ private constructor(
     ) {
 
         private var validated: Boolean = false
-
-        private var hashCode: Int = 0
 
         fun entry(): Entry = entry.getRequired("entry")
 
@@ -219,32 +183,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Data &&
-                this.entry == other.entry &&
-                this.references == other.references &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        entry,
-                        references,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -295,7 +233,7 @@ private constructor(
                 Data(
                     entry,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -310,8 +248,6 @@ private constructor(
         ) {
 
             private var validated: Boolean = false
-
-            private var hashCode: Int = 0
 
             fun length(): Long = length.getRequired("length")
 
@@ -341,34 +277,6 @@ private constructor(
             }
 
             fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Entry &&
-                    this.length == other.length &&
-                    this.levels == other.levels &&
-                    this.points == other.points &&
-                    this.additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            length,
-                            levels,
-                            points,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "Entry{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
 
             companion object {
 
@@ -429,9 +337,60 @@ private constructor(
                         length,
                         levels,
                         points,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is Entry && length == other.length && levels == other.levels && points == other.points && additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(length, levels, points, additionalProperties) }
+            /* spotless:on */
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Entry{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ShapeRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+    }
+
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
+    /* spotless:on */
+
+    override fun hashCode(): Int = hashCode
+
+    override fun toString() =
+        "ShapeRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 }

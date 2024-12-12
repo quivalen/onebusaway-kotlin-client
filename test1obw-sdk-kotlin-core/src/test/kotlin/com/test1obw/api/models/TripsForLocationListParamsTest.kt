@@ -2,6 +2,7 @@
 
 package com.test1obw.api.models
 
+import com.test1obw.api.core.http.QueryParams
 import com.test1obw.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -11,13 +12,13 @@ class TripsForLocationListParamsTest {
     @Test
     fun createTripsForLocationListParams() {
         TripsForLocationListParams.builder()
-            .lat(42.23)
-            .latSpan(42.23)
-            .lon(42.23)
-            .lonSpan(42.23)
+            .lat(0.0)
+            .latSpan(0.0)
+            .lon(0.0)
+            .lonSpan(0.0)
             .includeSchedule(true)
             .includeTrip(true)
-            .time(123L)
+            .time(0L)
             .build()
     }
 
@@ -25,39 +26,34 @@ class TripsForLocationListParamsTest {
     fun getQueryParams() {
         val params =
             TripsForLocationListParams.builder()
-                .lat(42.23)
-                .latSpan(42.23)
-                .lon(42.23)
-                .lonSpan(42.23)
+                .lat(0.0)
+                .latSpan(0.0)
+                .lon(0.0)
+                .lonSpan(0.0)
                 .includeSchedule(true)
                 .includeTrip(true)
-                .time(123L)
+                .time(0L)
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("lat", listOf("42.23"))
-        expected.put("latSpan", listOf("42.23"))
-        expected.put("lon", listOf("42.23"))
-        expected.put("lonSpan", listOf("42.23"))
-        expected.put("includeSchedule", listOf("true"))
-        expected.put("includeTrip", listOf("true"))
-        expected.put("time", listOf("123"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("lat", "0.0")
+        expected.put("latSpan", "0.0")
+        expected.put("lon", "0.0")
+        expected.put("lonSpan", "0.0")
+        expected.put("includeSchedule", "true")
+        expected.put("includeTrip", "true")
+        expected.put("time", "0")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params =
-            TripsForLocationListParams.builder()
-                .lat(42.23)
-                .latSpan(42.23)
-                .lon(42.23)
-                .lonSpan(42.23)
-                .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("lat", listOf("42.23"))
-        expected.put("latSpan", listOf("42.23"))
-        expected.put("lon", listOf("42.23"))
-        expected.put("lonSpan", listOf("42.23"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+            TripsForLocationListParams.builder().lat(0.0).latSpan(0.0).lon(0.0).lonSpan(0.0).build()
+        val expected = QueryParams.builder()
+        expected.put("lat", "0.0")
+        expected.put("latSpan", "0.0")
+        expected.put("lon", "0.0")
+        expected.put("lonSpan", "0.0")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 }

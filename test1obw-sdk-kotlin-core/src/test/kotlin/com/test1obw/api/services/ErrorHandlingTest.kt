@@ -6,15 +6,16 @@ import com.fasterxml.jackson.databind.json.JsonMapper
 import com.github.tomakehurst.wiremock.client.WireMock.anyUrl
 import com.github.tomakehurst.wiremock.client.WireMock.get
 import com.github.tomakehurst.wiremock.client.WireMock.ok
+import com.github.tomakehurst.wiremock.client.WireMock.put
 import com.github.tomakehurst.wiremock.client.WireMock.status
 import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
-import com.google.common.collect.ImmutableListMultimap
-import com.google.common.collect.ListMultimap
 import com.test1obw.api.client.Test1obwSdkClient
 import com.test1obw.api.client.okhttp.Test1obwSdkOkHttpClient
 import com.test1obw.api.core.JsonString
+import com.test1obw.api.core.JsonValue
+import com.test1obw.api.core.http.Headers
 import com.test1obw.api.core.jsonMapper
 import com.test1obw.api.errors.BadRequestException
 import com.test1obw.api.errors.InternalServerException
@@ -30,7 +31,6 @@ import com.test1obw.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.assertj.core.api.InstanceOfAssertFactories
-import org.assertj.guava.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -57,7 +57,145 @@ class ErrorHandlingTest {
     fun currentTimesRetrieve200() {
         val params = CurrentTimeRetrieveParams.builder().build()
 
-        val expected = CurrentTimeRetrieveResponse.builder().build()
+        val expected =
+            CurrentTimeRetrieveResponse.builder()
+                .putAdditionalProperty("code", JsonValue.from(0))
+                .putAdditionalProperty("currentTime", JsonValue.from(0))
+                .putAdditionalProperty("text", JsonValue.from("text"))
+                .putAdditionalProperty("version", JsonValue.from(0))
+                .putAdditionalProperty(
+                    "data",
+                    JsonValue.from(
+                        mapOf(
+                            "entry" to mapOf("readableTime" to "readableTime", "time" to 0),
+                            "references" to
+                                mapOf(
+                                    "agencies" to
+                                        listOf(
+                                            mapOf(
+                                                "id" to "id",
+                                                "name" to "name",
+                                                "timezone" to "timezone",
+                                                "url" to "url",
+                                                "disclaimer" to "disclaimer",
+                                                "email" to "email",
+                                                "fareUrl" to "fareUrl",
+                                                "lang" to "lang",
+                                                "phone" to "phone",
+                                                "privateService" to true,
+                                            )
+                                        ),
+                                    "routes" to
+                                        listOf(
+                                            mapOf(
+                                                "id" to "id",
+                                                "agencyId" to "agencyId",
+                                                "type" to 0,
+                                                "color" to "color",
+                                                "description" to "description",
+                                                "longName" to "longName",
+                                                "nullSafeShortName" to "nullSafeShortName",
+                                                "shortName" to "shortName",
+                                                "textColor" to "textColor",
+                                                "url" to "url",
+                                            )
+                                        ),
+                                    "situations" to
+                                        listOf(
+                                            mapOf(
+                                                "id" to "id",
+                                                "creationTime" to 0,
+                                                "activeWindows" to
+                                                    listOf(mapOf("from" to 0, "to" to 0)),
+                                                "allAffects" to
+                                                    listOf(
+                                                        mapOf(
+                                                            "agencyId" to "agencyId",
+                                                            "applicationId" to "applicationId",
+                                                            "directionId" to "directionId",
+                                                            "routeId" to "routeId",
+                                                            "stopId" to "stopId",
+                                                            "tripId" to "tripId",
+                                                        )
+                                                    ),
+                                                "consequenceMessage" to "consequenceMessage",
+                                                "consequences" to
+                                                    listOf(
+                                                        mapOf(
+                                                            "condition" to "condition",
+                                                            "conditionDetails" to
+                                                                mapOf(
+                                                                    "diversionPath" to
+                                                                        mapOf(
+                                                                            "length" to 0,
+                                                                            "levels" to "levels",
+                                                                            "points" to "points",
+                                                                        ),
+                                                                    "diversionStopIds" to
+                                                                        listOf("string")
+                                                                )
+                                                        )
+                                                    ),
+                                                "description" to
+                                                    mapOf("lang" to "lang", "value" to "value"),
+                                                "publicationWindows" to
+                                                    listOf(mapOf("from" to 0, "to" to 0)),
+                                                "reason" to "equipmentReason",
+                                                "severity" to "severity",
+                                                "summary" to
+                                                    mapOf("lang" to "lang", "value" to "value"),
+                                                "url" to
+                                                    mapOf("lang" to "lang", "value" to "value"),
+                                            )
+                                        ),
+                                    "stops" to
+                                        listOf(
+                                            mapOf(
+                                                "id" to "id",
+                                                "code" to "code",
+                                                "lat" to 0,
+                                                "lon" to 0,
+                                                "name" to "name",
+                                                "direction" to "direction",
+                                                "locationType" to 0,
+                                                "parent" to "parent",
+                                                "routeIds" to listOf("string"),
+                                                "staticRouteIds" to listOf("string"),
+                                                "wheelchairBoarding" to "wheelchairBoarding",
+                                            )
+                                        ),
+                                    "stopTimes" to
+                                        listOf(
+                                            mapOf(
+                                                "arrivalTime" to 0,
+                                                "departureTime" to 0,
+                                                "distanceAlongTrip" to 0,
+                                                "historicalOccupancy" to "historicalOccupancy",
+                                                "stopHeadsign" to "stopHeadsign",
+                                                "stopId" to "stopId",
+                                            )
+                                        ),
+                                    "trips" to
+                                        listOf(
+                                            mapOf(
+                                                "id" to "id",
+                                                "routeId" to "routeId",
+                                                "serviceId" to "serviceId",
+                                                "blockId" to "blockId",
+                                                "directionId" to "directionId",
+                                                "peakOffpeak" to 0,
+                                                "routeShortName" to "routeShortName",
+                                                "shapeId" to "shapeId",
+                                                "timeZone" to "timeZone",
+                                                "tripHeadsign" to "tripHeadsign",
+                                                "tripShortName" to "tripShortName",
+                                            )
+                                        ),
+                                )
+                        )
+                    )
+                )
+                .build()
 
         stubFor(get(anyUrl()).willReturn(ok().withBody(toJson(expected))))
 
@@ -77,7 +215,7 @@ class ErrorHandlingTest {
 
         assertThatThrownBy({ client.currentTime().retrieve(params) })
             .satisfies({ e ->
-                assertBadRequest(e, ImmutableListMultimap.of("Foo", "Bar"), TEST1OBW_SDK_ERROR)
+                assertBadRequest(e, Headers.builder().put("Foo", "Bar").build(), TEST1OBW_SDK_ERROR)
             })
     }
 
@@ -94,7 +232,11 @@ class ErrorHandlingTest {
 
         assertThatThrownBy({ client.currentTime().retrieve(params) })
             .satisfies({ e ->
-                assertUnauthorized(e, ImmutableListMultimap.of("Foo", "Bar"), TEST1OBW_SDK_ERROR)
+                assertUnauthorized(
+                    e,
+                    Headers.builder().put("Foo", "Bar").build(),
+                    TEST1OBW_SDK_ERROR
+                )
             })
     }
 
@@ -113,7 +255,7 @@ class ErrorHandlingTest {
             .satisfies({ e ->
                 assertPermissionDenied(
                     e,
-                    ImmutableListMultimap.of("Foo", "Bar"),
+                    Headers.builder().put("Foo", "Bar").build(),
                     TEST1OBW_SDK_ERROR
                 )
             })
@@ -132,7 +274,7 @@ class ErrorHandlingTest {
 
         assertThatThrownBy({ client.currentTime().retrieve(params) })
             .satisfies({ e ->
-                assertNotFound(e, ImmutableListMultimap.of("Foo", "Bar"), TEST1OBW_SDK_ERROR)
+                assertNotFound(e, Headers.builder().put("Foo", "Bar").build(), TEST1OBW_SDK_ERROR)
             })
     }
 
@@ -151,7 +293,7 @@ class ErrorHandlingTest {
             .satisfies({ e ->
                 assertUnprocessableEntity(
                     e,
-                    ImmutableListMultimap.of("Foo", "Bar"),
+                    Headers.builder().put("Foo", "Bar").build(),
                     TEST1OBW_SDK_ERROR
                 )
             })
@@ -170,7 +312,7 @@ class ErrorHandlingTest {
 
         assertThatThrownBy({ client.currentTime().retrieve(params) })
             .satisfies({ e ->
-                assertRateLimit(e, ImmutableListMultimap.of("Foo", "Bar"), TEST1OBW_SDK_ERROR)
+                assertRateLimit(e, Headers.builder().put("Foo", "Bar").build(), TEST1OBW_SDK_ERROR)
             })
     }
 
@@ -187,7 +329,11 @@ class ErrorHandlingTest {
 
         assertThatThrownBy({ client.currentTime().retrieve(params) })
             .satisfies({ e ->
-                assertInternalServer(e, ImmutableListMultimap.of("Foo", "Bar"), TEST1OBW_SDK_ERROR)
+                assertInternalServer(
+                    e,
+                    Headers.builder().put("Foo", "Bar").build(),
+                    TEST1OBW_SDK_ERROR
+                )
             })
     }
 
@@ -207,7 +353,7 @@ class ErrorHandlingTest {
                 assertUnexpectedStatusCodeException(
                     e,
                     999,
-                    ImmutableListMultimap.of("Foo", "Bar"),
+                    Headers.builder().put("Foo", "Bar").build(),
                     toJson(TEST1OBW_SDK_ERROR)
                 )
             })
@@ -235,7 +381,7 @@ class ErrorHandlingTest {
 
         assertThatThrownBy({ client.currentTime().retrieve(params) })
             .satisfies({ e ->
-                assertBadRequest(e, ImmutableListMultimap.of(), Test1obwSdkError.builder().build())
+                assertBadRequest(e, Headers.builder().build(), Test1obwSdkError.builder().build())
             })
     }
 
@@ -246,7 +392,7 @@ class ErrorHandlingTest {
     private fun assertUnexpectedStatusCodeException(
         throwable: Throwable,
         statusCode: Int,
-        headers: ListMultimap<String, String>,
+        headers: Headers,
         responseBody: ByteArray
     ) {
         assertThat(throwable)
@@ -256,27 +402,23 @@ class ErrorHandlingTest {
             .satisfies({ e ->
                 assertThat(e.statusCode()).isEqualTo(statusCode)
                 assertThat(e.body()).isEqualTo(String(responseBody))
-                assertThat(e.headers()).containsAllEntriesOf(headers)
+                assertThat(e.headers().toMap()).containsAllEntriesOf(headers.toMap())
             })
     }
 
-    private fun assertBadRequest(
-        throwable: Throwable,
-        headers: ListMultimap<String, String>,
-        error: Test1obwSdkError
-    ) {
+    private fun assertBadRequest(throwable: Throwable, headers: Headers, error: Test1obwSdkError) {
         assertThat(throwable)
             .asInstanceOf(InstanceOfAssertFactories.throwable(BadRequestException::class.java))
             .satisfies({ e ->
                 assertThat(e.statusCode()).isEqualTo(400)
                 assertThat(e.error()).isEqualTo(error)
-                assertThat(e.headers()).containsAllEntriesOf(headers)
+                assertThat(e.headers().toMap()).containsAllEntriesOf(headers.toMap())
             })
     }
 
     private fun assertUnauthorized(
         throwable: Throwable,
-        headers: ListMultimap<String, String>,
+        headers: Headers,
         error: Test1obwSdkError
     ) {
         assertThat(throwable)
@@ -284,13 +426,13 @@ class ErrorHandlingTest {
             .satisfies({ e ->
                 assertThat(e.statusCode()).isEqualTo(401)
                 assertThat(e.error()).isEqualTo(error)
-                assertThat(e.headers()).containsAllEntriesOf(headers)
+                assertThat(e.headers().toMap()).containsAllEntriesOf(headers.toMap())
             })
     }
 
     private fun assertPermissionDenied(
         throwable: Throwable,
-        headers: ListMultimap<String, String>,
+        headers: Headers,
         error: Test1obwSdkError
     ) {
         assertThat(throwable)
@@ -300,27 +442,23 @@ class ErrorHandlingTest {
             .satisfies({ e ->
                 assertThat(e.statusCode()).isEqualTo(403)
                 assertThat(e.error()).isEqualTo(error)
-                assertThat(e.headers()).containsAllEntriesOf(headers)
+                assertThat(e.headers().toMap()).containsAllEntriesOf(headers.toMap())
             })
     }
 
-    private fun assertNotFound(
-        throwable: Throwable,
-        headers: ListMultimap<String, String>,
-        error: Test1obwSdkError
-    ) {
+    private fun assertNotFound(throwable: Throwable, headers: Headers, error: Test1obwSdkError) {
         assertThat(throwable)
             .asInstanceOf(InstanceOfAssertFactories.throwable(NotFoundException::class.java))
             .satisfies({ e ->
                 assertThat(e.statusCode()).isEqualTo(404)
                 assertThat(e.error()).isEqualTo(error)
-                assertThat(e.headers()).containsAllEntriesOf(headers)
+                assertThat(e.headers().toMap()).containsAllEntriesOf(headers.toMap())
             })
     }
 
     private fun assertUnprocessableEntity(
         throwable: Throwable,
-        headers: ListMultimap<String, String>,
+        headers: Headers,
         error: Test1obwSdkError
     ) {
         assertThat(throwable)
@@ -330,27 +468,23 @@ class ErrorHandlingTest {
             .satisfies({ e ->
                 assertThat(e.statusCode()).isEqualTo(422)
                 assertThat(e.error()).isEqualTo(error)
-                assertThat(e.headers()).containsAllEntriesOf(headers)
+                assertThat(e.headers().toMap()).containsAllEntriesOf(headers.toMap())
             })
     }
 
-    private fun assertRateLimit(
-        throwable: Throwable,
-        headers: ListMultimap<String, String>,
-        error: Test1obwSdkError
-    ) {
+    private fun assertRateLimit(throwable: Throwable, headers: Headers, error: Test1obwSdkError) {
         assertThat(throwable)
             .asInstanceOf(InstanceOfAssertFactories.throwable(RateLimitException::class.java))
             .satisfies({ e ->
                 assertThat(e.statusCode()).isEqualTo(429)
                 assertThat(e.error()).isEqualTo(error)
-                assertThat(e.headers()).containsAllEntriesOf(headers)
+                assertThat(e.headers().toMap()).containsAllEntriesOf(headers.toMap())
             })
     }
 
     private fun assertInternalServer(
         throwable: Throwable,
-        headers: ListMultimap<String, String>,
+        headers: Headers,
         error: Test1obwSdkError
     ) {
         assertThat(throwable)
@@ -358,7 +492,12 @@ class ErrorHandlingTest {
             .satisfies({ e ->
                 assertThat(e.statusCode()).isEqualTo(500)
                 assertThat(e.error()).isEqualTo(error)
-                assertThat(e.headers()).containsAllEntriesOf(headers)
+                assertThat(e.headers().toMap()).containsAllEntriesOf(headers.toMap())
             })
     }
+
+    private fun Headers.toMap(): Map<String, List<String>> =
+        mutableMapOf<String, List<String>>().also { map ->
+            names().forEach { map[it] = values(it) }
+        }
 }

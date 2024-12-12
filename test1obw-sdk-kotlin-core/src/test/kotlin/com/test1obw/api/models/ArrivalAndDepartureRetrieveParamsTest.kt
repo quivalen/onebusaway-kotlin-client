@@ -2,6 +2,7 @@
 
 package com.test1obw.api.models
 
+import com.test1obw.api.core.http.QueryParams
 import com.test1obw.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -12,10 +13,10 @@ class ArrivalAndDepartureRetrieveParamsTest {
     fun createArrivalAndDepartureRetrieveParams() {
         ArrivalAndDepartureRetrieveParams.builder()
             .stopId("stopID")
-            .serviceDate(123L)
+            .serviceDate(0L)
             .tripId("tripId")
-            .stopSequence(123L)
-            .time(123L)
+            .stopSequence(0L)
+            .time(0L)
             .vehicleId("vehicleId")
             .build()
     }
@@ -25,19 +26,19 @@ class ArrivalAndDepartureRetrieveParamsTest {
         val params =
             ArrivalAndDepartureRetrieveParams.builder()
                 .stopId("stopID")
-                .serviceDate(123L)
+                .serviceDate(0L)
                 .tripId("tripId")
-                .stopSequence(123L)
-                .time(123L)
+                .stopSequence(0L)
+                .time(0L)
                 .vehicleId("vehicleId")
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("serviceDate", listOf("123"))
-        expected.put("tripId", listOf("tripId"))
-        expected.put("stopSequence", listOf("123"))
-        expected.put("time", listOf("123"))
-        expected.put("vehicleId", listOf("vehicleId"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("serviceDate", "0")
+        expected.put("tripId", "tripId")
+        expected.put("stopSequence", "0")
+        expected.put("time", "0")
+        expected.put("vehicleId", "vehicleId")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
@@ -45,13 +46,13 @@ class ArrivalAndDepartureRetrieveParamsTest {
         val params =
             ArrivalAndDepartureRetrieveParams.builder()
                 .stopId("stopID")
-                .serviceDate(123L)
+                .serviceDate(0L)
                 .tripId("tripId")
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("serviceDate", listOf("123"))
-        expected.put("tripId", listOf("tripId"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("serviceDate", "0")
+        expected.put("tripId", "tripId")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
@@ -59,7 +60,7 @@ class ArrivalAndDepartureRetrieveParamsTest {
         val params =
             ArrivalAndDepartureRetrieveParams.builder()
                 .stopId("stopID")
-                .serviceDate(123L)
+                .serviceDate(0L)
                 .tripId("tripId")
                 .build()
         assertThat(params).isNotNull

@@ -2,6 +2,7 @@
 
 package com.test1obw.api.models
 
+import com.test1obw.api.core.http.QueryParams
 import com.test1obw.api.models.*
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -13,8 +14,8 @@ class ArrivalAndDepartureListParamsTest {
     fun createArrivalAndDepartureListParams() {
         ArrivalAndDepartureListParams.builder()
             .stopId("stopID")
-            .minutesAfter(123L)
-            .minutesBefore(123L)
+            .minutesAfter(0L)
+            .minutesBefore(0L)
             .time(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .build()
     }
@@ -24,22 +25,22 @@ class ArrivalAndDepartureListParamsTest {
         val params =
             ArrivalAndDepartureListParams.builder()
                 .stopId("stopID")
-                .minutesAfter(123L)
-                .minutesBefore(123L)
+                .minutesAfter(0L)
+                .minutesBefore(0L)
                 .time(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("minutesAfter", listOf("123"))
-        expected.put("minutesBefore", listOf("123"))
-        expected.put("time", listOf("2019-12-27T18:11:19.117Z"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("minutesAfter", "0")
+        expected.put("minutesBefore", "0")
+        expected.put("time", "2019-12-27T18:11:19.117Z")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params = ArrivalAndDepartureListParams.builder().stopId("stopID").build()
-        val expected = mutableMapOf<String, List<String>>()
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test

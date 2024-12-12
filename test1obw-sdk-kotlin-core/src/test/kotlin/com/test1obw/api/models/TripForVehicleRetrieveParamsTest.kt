@@ -2,6 +2,7 @@
 
 package com.test1obw.api.models
 
+import com.test1obw.api.core.http.QueryParams
 import com.test1obw.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -15,7 +16,7 @@ class TripForVehicleRetrieveParamsTest {
             .includeSchedule(true)
             .includeStatus(true)
             .includeTrip(true)
-            .time(123L)
+            .time(0L)
             .build()
     }
 
@@ -27,21 +28,21 @@ class TripForVehicleRetrieveParamsTest {
                 .includeSchedule(true)
                 .includeStatus(true)
                 .includeTrip(true)
-                .time(123L)
+                .time(0L)
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("includeSchedule", listOf("true"))
-        expected.put("includeStatus", listOf("true"))
-        expected.put("includeTrip", listOf("true"))
-        expected.put("time", listOf("123"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("includeSchedule", "true")
+        expected.put("includeStatus", "true")
+        expected.put("includeTrip", "true")
+        expected.put("time", "0")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params = TripForVehicleRetrieveParams.builder().vehicleId("vehicleID").build()
-        val expected = mutableMapOf<String, List<String>>()
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test

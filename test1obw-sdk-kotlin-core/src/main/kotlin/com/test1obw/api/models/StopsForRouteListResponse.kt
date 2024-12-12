@@ -11,7 +11,7 @@ import com.test1obw.api.core.JsonField
 import com.test1obw.api.core.JsonMissing
 import com.test1obw.api.core.JsonValue
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import java.util.Objects
 
 @JsonDeserialize(builder = StopsForRouteListResponse.Builder::class)
@@ -27,8 +27,6 @@ private constructor(
 ) {
 
     private var validated: Boolean = false
-
-    private var hashCode: Int = 0
 
     fun code(): Long = code.getRequired("code")
 
@@ -74,38 +72,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is StopsForRouteListResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "StopsForRouteListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -181,7 +147,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -195,8 +161,6 @@ private constructor(
     ) {
 
         private var validated: Boolean = false
-
-        private var hashCode: Int = 0
 
         fun entry(): Entry = entry.getRequired("entry")
 
@@ -219,32 +183,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Data &&
-                this.entry == other.entry &&
-                this.references == other.references &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        entry,
-                        references,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -295,7 +233,7 @@ private constructor(
                 Data(
                     entry,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -311,8 +249,6 @@ private constructor(
         ) {
 
             private var validated: Boolean = false
-
-            private var hashCode: Int = 0
 
             fun polylines(): List<Polyline>? = polylines.getNullable("polylines")
 
@@ -345,36 +281,6 @@ private constructor(
             }
 
             fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Entry &&
-                    this.polylines == other.polylines &&
-                    this.routeId == other.routeId &&
-                    this.stopGroupings == other.stopGroupings &&
-                    this.stopIds == other.stopIds &&
-                    this.additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            polylines,
-                            routeId,
-                            stopGroupings,
-                            stopIds,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "Entry{polylines=$polylines, routeId=$routeId, stopGroupings=$stopGroupings, stopIds=$stopIds, additionalProperties=$additionalProperties}"
 
             companion object {
 
@@ -443,11 +349,11 @@ private constructor(
 
                 fun build(): Entry =
                     Entry(
-                        polylines.map { it.toUnmodifiable() },
+                        polylines.map { it.toImmutable() },
                         routeId,
-                        stopGroupings.map { it.toUnmodifiable() },
-                        stopIds.map { it.toUnmodifiable() },
-                        additionalProperties.toUnmodifiable(),
+                        stopGroupings.map { it.toImmutable() },
+                        stopIds.map { it.toImmutable() },
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -462,8 +368,6 @@ private constructor(
             ) {
 
                 private var validated: Boolean = false
-
-                private var hashCode: Int = 0
 
                 fun length(): Long? = length.getNullable("length")
 
@@ -491,34 +395,6 @@ private constructor(
                 }
 
                 fun toBuilder() = Builder().from(this)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is Polyline &&
-                        this.length == other.length &&
-                        this.levels == other.levels &&
-                        this.points == other.points &&
-                        this.additionalProperties == other.additionalProperties
-                }
-
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                length,
-                                levels,
-                                points,
-                                additionalProperties,
-                            )
-                    }
-                    return hashCode
-                }
-
-                override fun toString() =
-                    "Polyline{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
 
                 companion object {
 
@@ -577,9 +453,26 @@ private constructor(
                             length,
                             levels,
                             points,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Polyline && length == other.length && levels == other.levels && points == other.points && additionalProperties == other.additionalProperties /* spotless:on */
+                }
+
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(length, levels, points, additionalProperties) }
+                /* spotless:on */
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "Polyline{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
             }
 
             @JsonDeserialize(builder = StopGrouping.Builder::class)
@@ -594,8 +487,6 @@ private constructor(
             ) {
 
                 private var validated: Boolean = false
-
-                private var hashCode: Int = 0
 
                 fun id(): String? = id.getNullable("id")
 
@@ -628,36 +519,6 @@ private constructor(
                 }
 
                 fun toBuilder() = Builder().from(this)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is StopGrouping &&
-                        this.id == other.id &&
-                        this.name == other.name &&
-                        this.polylines == other.polylines &&
-                        this.stopIds == other.stopIds &&
-                        this.additionalProperties == other.additionalProperties
-                }
-
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                id,
-                                name,
-                                polylines,
-                                stopIds,
-                                additionalProperties,
-                            )
-                    }
-                    return hashCode
-                }
-
-                override fun toString() =
-                    "StopGrouping{id=$id, name=$name, polylines=$polylines, stopIds=$stopIds, additionalProperties=$additionalProperties}"
 
                 companion object {
 
@@ -725,9 +586,9 @@ private constructor(
                         StopGrouping(
                             id,
                             name,
-                            polylines.map { it.toUnmodifiable() },
-                            stopIds.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable(),
+                            polylines.map { it.toImmutable() },
+                            stopIds.map { it.toImmutable() },
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -742,8 +603,6 @@ private constructor(
                 ) {
 
                     private var validated: Boolean = false
-
-                    private var hashCode: Int = 0
 
                     fun name(): String? = name.getNullable("name")
 
@@ -771,34 +630,6 @@ private constructor(
                     }
 
                     fun toBuilder() = Builder().from(this)
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is Name &&
-                            this.name == other.name &&
-                            this.names == other.names &&
-                            this.type == other.type &&
-                            this.additionalProperties == other.additionalProperties
-                    }
-
-                    override fun hashCode(): Int {
-                        if (hashCode == 0) {
-                            hashCode =
-                                Objects.hash(
-                                    name,
-                                    names,
-                                    type,
-                                    additionalProperties,
-                                )
-                        }
-                        return hashCode
-                    }
-
-                    override fun toString() =
-                        "Name{name=$name, names=$names, type=$type, additionalProperties=$additionalProperties}"
 
                     companion object {
 
@@ -856,11 +687,28 @@ private constructor(
                         fun build(): Name =
                             Name(
                                 name,
-                                names.map { it.toUnmodifiable() },
+                                names.map { it.toImmutable() },
                                 type,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return /* spotless:off */ other is Name && name == other.name && names == other.names && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+                    }
+
+                    /* spotless:off */
+                    private val hashCode: Int by lazy { Objects.hash(name, names, type, additionalProperties) }
+                    /* spotless:on */
+
+                    override fun hashCode(): Int = hashCode
+
+                    override fun toString() =
+                        "Name{name=$name, names=$names, type=$type, additionalProperties=$additionalProperties}"
                 }
 
                 @JsonDeserialize(builder = Polyline.Builder::class)
@@ -874,8 +722,6 @@ private constructor(
                 ) {
 
                     private var validated: Boolean = false
-
-                    private var hashCode: Int = 0
 
                     fun length(): Long? = length.getNullable("length")
 
@@ -903,34 +749,6 @@ private constructor(
                     }
 
                     fun toBuilder() = Builder().from(this)
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is Polyline &&
-                            this.length == other.length &&
-                            this.levels == other.levels &&
-                            this.points == other.points &&
-                            this.additionalProperties == other.additionalProperties
-                    }
-
-                    override fun hashCode(): Int {
-                        if (hashCode == 0) {
-                            hashCode =
-                                Objects.hash(
-                                    length,
-                                    levels,
-                                    points,
-                                    additionalProperties,
-                                )
-                        }
-                        return hashCode
-                    }
-
-                    override fun toString() =
-                        "Polyline{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
 
                     companion object {
 
@@ -990,11 +808,96 @@ private constructor(
                                 length,
                                 levels,
                                 points,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return /* spotless:off */ other is Polyline && length == other.length && levels == other.levels && points == other.points && additionalProperties == other.additionalProperties /* spotless:on */
+                    }
+
+                    /* spotless:off */
+                    private val hashCode: Int by lazy { Objects.hash(length, levels, points, additionalProperties) }
+                    /* spotless:on */
+
+                    override fun hashCode(): Int = hashCode
+
+                    override fun toString() =
+                        "Polyline{length=$length, levels=$levels, points=$points, additionalProperties=$additionalProperties}"
                 }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is StopGrouping && id == other.id && name == other.name && polylines == other.polylines && stopIds == other.stopIds && additionalProperties == other.additionalProperties /* spotless:on */
+                }
+
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(id, name, polylines, stopIds, additionalProperties) }
+                /* spotless:on */
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "StopGrouping{id=$id, name=$name, polylines=$polylines, stopIds=$stopIds, additionalProperties=$additionalProperties}"
             }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is Entry && polylines == other.polylines && routeId == other.routeId && stopGroupings == other.stopGroupings && stopIds == other.stopIds && additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(polylines, routeId, stopGroupings, stopIds, additionalProperties) }
+            /* spotless:on */
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Entry{polylines=$polylines, routeId=$routeId, stopGroupings=$stopGroupings, stopIds=$stopIds, additionalProperties=$additionalProperties}"
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is StopsForRouteListResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+    }
+
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
+    /* spotless:on */
+
+    override fun hashCode(): Int = hashCode
+
+    override fun toString() =
+        "StopsForRouteListResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 }

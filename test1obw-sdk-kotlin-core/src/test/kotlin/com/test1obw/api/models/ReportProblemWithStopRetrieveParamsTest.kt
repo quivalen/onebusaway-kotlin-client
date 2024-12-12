@@ -2,6 +2,7 @@
 
 package com.test1obw.api.models
 
+import com.test1obw.api.core.http.QueryParams
 import com.test1obw.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -14,9 +15,9 @@ class ReportProblemWithStopRetrieveParamsTest {
             .stopId("stopID")
             .code(ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG)
             .userComment("userComment")
-            .userLat(42.23)
-            .userLocationAccuracy(42.23)
-            .userLon(42.23)
+            .userLat(0.0)
+            .userLocationAccuracy(0.0)
+            .userLon(0.0)
             .build()
     }
 
@@ -27,27 +28,24 @@ class ReportProblemWithStopRetrieveParamsTest {
                 .stopId("stopID")
                 .code(ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG)
                 .userComment("userComment")
-                .userLat(42.23)
-                .userLocationAccuracy(42.23)
-                .userLon(42.23)
+                .userLat(0.0)
+                .userLocationAccuracy(0.0)
+                .userLon(0.0)
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put(
-            "code",
-            listOf(ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG.toString())
-        )
-        expected.put("userComment", listOf("userComment"))
-        expected.put("userLat", listOf("42.23"))
-        expected.put("userLocationAccuracy", listOf("42.23"))
-        expected.put("userLon", listOf("42.23"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("code", ReportProblemWithStopRetrieveParams.Code.STOP_NAME_WRONG.toString())
+        expected.put("userComment", "userComment")
+        expected.put("userLat", "0.0")
+        expected.put("userLocationAccuracy", "0.0")
+        expected.put("userLon", "0.0")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params = ReportProblemWithStopRetrieveParams.builder().stopId("stopID").build()
-        val expected = mutableMapOf<String, List<String>>()
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test

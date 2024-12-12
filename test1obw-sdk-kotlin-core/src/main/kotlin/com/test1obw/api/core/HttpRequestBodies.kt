@@ -1,11 +1,8 @@
 @file:JvmName("HttpRequestBodies")
 
-package com.test1obw.api.services
+package com.test1obw.api.core
 
 import com.fasterxml.jackson.databind.json.JsonMapper
-import com.test1obw.api.core.Enum
-import com.test1obw.api.core.JsonValue
-import com.test1obw.api.core.MultipartFormValue
 import com.test1obw.api.core.http.HttpRequestBody
 import com.test1obw.api.errors.Test1obwSdkException
 import java.io.ByteArrayOutputStream

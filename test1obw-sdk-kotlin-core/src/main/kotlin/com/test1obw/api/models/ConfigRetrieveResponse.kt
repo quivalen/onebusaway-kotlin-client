@@ -11,7 +11,7 @@ import com.test1obw.api.core.JsonField
 import com.test1obw.api.core.JsonMissing
 import com.test1obw.api.core.JsonValue
 import com.test1obw.api.core.NoAutoDetect
-import com.test1obw.api.core.toUnmodifiable
+import com.test1obw.api.core.toImmutable
 import java.util.Objects
 
 @JsonDeserialize(builder = ConfigRetrieveResponse.Builder::class)
@@ -27,8 +27,6 @@ private constructor(
 ) {
 
     private var validated: Boolean = false
-
-    private var hashCode: Int = 0
 
     fun code(): Long = code.getRequired("code")
 
@@ -74,38 +72,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is ConfigRetrieveResponse &&
-            this.code == other.code &&
-            this.currentTime == other.currentTime &&
-            this.text == other.text &&
-            this.version == other.version &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    code,
-                    currentTime,
-                    text,
-                    version,
-                    data,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "ConfigRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -181,7 +147,7 @@ private constructor(
                 text,
                 version,
                 data,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -195,8 +161,6 @@ private constructor(
     ) {
 
         private var validated: Boolean = false
-
-        private var hashCode: Int = 0
 
         fun entry(): Entry = entry.getRequired("entry")
 
@@ -219,32 +183,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Data &&
-                this.entry == other.entry &&
-                this.references == other.references &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        entry,
-                        references,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -295,7 +233,7 @@ private constructor(
                 Data(
                     entry,
                     references,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -312,8 +250,6 @@ private constructor(
         ) {
 
             private var validated: Boolean = false
-
-            private var hashCode: Int = 0
 
             fun gitProperties(): GitProperties? = gitProperties.getNullable("gitProperties")
 
@@ -353,38 +289,6 @@ private constructor(
             }
 
             fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Entry &&
-                    this.gitProperties == other.gitProperties &&
-                    this.id == other.id &&
-                    this.name == other.name &&
-                    this.serviceDateFrom == other.serviceDateFrom &&
-                    this.serviceDateTo == other.serviceDateTo &&
-                    this.additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            gitProperties,
-                            id,
-                            name,
-                            serviceDateFrom,
-                            serviceDateTo,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "Entry{gitProperties=$gitProperties, id=$id, name=$name, serviceDateFrom=$serviceDateFrom, serviceDateTo=$serviceDateTo, additionalProperties=$additionalProperties}"
 
             companion object {
 
@@ -470,7 +374,7 @@ private constructor(
                         name,
                         serviceDateFrom,
                         serviceDateTo,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -502,8 +406,6 @@ private constructor(
             ) {
 
                 private var validated: Boolean = false
-
-                private var hashCode: Int = 0
 
                 fun gitBranch(): String? = gitBranch.getNullable("git.branch")
 
@@ -656,68 +558,6 @@ private constructor(
                 }
 
                 fun toBuilder() = Builder().from(this)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is GitProperties &&
-                        this.gitBranch == other.gitBranch &&
-                        this.gitBuildHost == other.gitBuildHost &&
-                        this.gitBuildTime == other.gitBuildTime &&
-                        this.gitBuildUserEmail == other.gitBuildUserEmail &&
-                        this.gitBuildUserName == other.gitBuildUserName &&
-                        this.gitBuildVersion == other.gitBuildVersion &&
-                        this.gitClosestTagCommitCount == other.gitClosestTagCommitCount &&
-                        this.gitClosestTagName == other.gitClosestTagName &&
-                        this.gitCommitId == other.gitCommitId &&
-                        this.gitCommitIdAbbrev == other.gitCommitIdAbbrev &&
-                        this.gitCommitIdDescribe == other.gitCommitIdDescribe &&
-                        this.gitCommitIdDescribeShort == other.gitCommitIdDescribeShort &&
-                        this.gitCommitMessageFull == other.gitCommitMessageFull &&
-                        this.gitCommitMessageShort == other.gitCommitMessageShort &&
-                        this.gitCommitTime == other.gitCommitTime &&
-                        this.gitCommitUserEmail == other.gitCommitUserEmail &&
-                        this.gitCommitUserName == other.gitCommitUserName &&
-                        this.gitDirty == other.gitDirty &&
-                        this.gitRemoteOriginUrl == other.gitRemoteOriginUrl &&
-                        this.gitTags == other.gitTags &&
-                        this.additionalProperties == other.additionalProperties
-                }
-
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                gitBranch,
-                                gitBuildHost,
-                                gitBuildTime,
-                                gitBuildUserEmail,
-                                gitBuildUserName,
-                                gitBuildVersion,
-                                gitClosestTagCommitCount,
-                                gitClosestTagName,
-                                gitCommitId,
-                                gitCommitIdAbbrev,
-                                gitCommitIdDescribe,
-                                gitCommitIdDescribeShort,
-                                gitCommitMessageFull,
-                                gitCommitMessageShort,
-                                gitCommitTime,
-                                gitCommitUserEmail,
-                                gitCommitUserName,
-                                gitDirty,
-                                gitRemoteOriginUrl,
-                                gitTags,
-                                additionalProperties,
-                            )
-                    }
-                    return hashCode
-                }
-
-                override fun toString() =
-                    "GitProperties{gitBranch=$gitBranch, gitBuildHost=$gitBuildHost, gitBuildTime=$gitBuildTime, gitBuildUserEmail=$gitBuildUserEmail, gitBuildUserName=$gitBuildUserName, gitBuildVersion=$gitBuildVersion, gitClosestTagCommitCount=$gitClosestTagCommitCount, gitClosestTagName=$gitClosestTagName, gitCommitId=$gitCommitId, gitCommitIdAbbrev=$gitCommitIdAbbrev, gitCommitIdDescribe=$gitCommitIdDescribe, gitCommitIdDescribeShort=$gitCommitIdDescribeShort, gitCommitMessageFull=$gitCommitMessageFull, gitCommitMessageShort=$gitCommitMessageShort, gitCommitTime=$gitCommitTime, gitCommitUserEmail=$gitCommitUserEmail, gitCommitUserName=$gitCommitUserName, gitDirty=$gitDirty, gitRemoteOriginUrl=$gitRemoteOriginUrl, gitTags=$gitTags, additionalProperties=$additionalProperties}"
 
                 companion object {
 
@@ -983,10 +823,78 @@ private constructor(
                             gitDirty,
                             gitRemoteOriginUrl,
                             gitTags,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is GitProperties && gitBranch == other.gitBranch && gitBuildHost == other.gitBuildHost && gitBuildTime == other.gitBuildTime && gitBuildUserEmail == other.gitBuildUserEmail && gitBuildUserName == other.gitBuildUserName && gitBuildVersion == other.gitBuildVersion && gitClosestTagCommitCount == other.gitClosestTagCommitCount && gitClosestTagName == other.gitClosestTagName && gitCommitId == other.gitCommitId && gitCommitIdAbbrev == other.gitCommitIdAbbrev && gitCommitIdDescribe == other.gitCommitIdDescribe && gitCommitIdDescribeShort == other.gitCommitIdDescribeShort && gitCommitMessageFull == other.gitCommitMessageFull && gitCommitMessageShort == other.gitCommitMessageShort && gitCommitTime == other.gitCommitTime && gitCommitUserEmail == other.gitCommitUserEmail && gitCommitUserName == other.gitCommitUserName && gitDirty == other.gitDirty && gitRemoteOriginUrl == other.gitRemoteOriginUrl && gitTags == other.gitTags && additionalProperties == other.additionalProperties /* spotless:on */
+                }
+
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(gitBranch, gitBuildHost, gitBuildTime, gitBuildUserEmail, gitBuildUserName, gitBuildVersion, gitClosestTagCommitCount, gitClosestTagName, gitCommitId, gitCommitIdAbbrev, gitCommitIdDescribe, gitCommitIdDescribeShort, gitCommitMessageFull, gitCommitMessageShort, gitCommitTime, gitCommitUserEmail, gitCommitUserName, gitDirty, gitRemoteOriginUrl, gitTags, additionalProperties) }
+                /* spotless:on */
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "GitProperties{gitBranch=$gitBranch, gitBuildHost=$gitBuildHost, gitBuildTime=$gitBuildTime, gitBuildUserEmail=$gitBuildUserEmail, gitBuildUserName=$gitBuildUserName, gitBuildVersion=$gitBuildVersion, gitClosestTagCommitCount=$gitClosestTagCommitCount, gitClosestTagName=$gitClosestTagName, gitCommitId=$gitCommitId, gitCommitIdAbbrev=$gitCommitIdAbbrev, gitCommitIdDescribe=$gitCommitIdDescribe, gitCommitIdDescribeShort=$gitCommitIdDescribeShort, gitCommitMessageFull=$gitCommitMessageFull, gitCommitMessageShort=$gitCommitMessageShort, gitCommitTime=$gitCommitTime, gitCommitUserEmail=$gitCommitUserEmail, gitCommitUserName=$gitCommitUserName, gitDirty=$gitDirty, gitRemoteOriginUrl=$gitRemoteOriginUrl, gitTags=$gitTags, additionalProperties=$additionalProperties}"
             }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is Entry && gitProperties == other.gitProperties && id == other.id && name == other.name && serviceDateFrom == other.serviceDateFrom && serviceDateTo == other.serviceDateTo && additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(gitProperties, id, name, serviceDateFrom, serviceDateTo, additionalProperties) }
+            /* spotless:on */
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Entry{gitProperties=$gitProperties, id=$id, name=$name, serviceDateFrom=$serviceDateFrom, serviceDateTo=$serviceDateTo, additionalProperties=$additionalProperties}"
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Data && entry == other.entry && references == other.references && additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(entry, references, additionalProperties) }
+        /* spotless:on */
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Data{entry=$entry, references=$references, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ConfigRetrieveResponse && code == other.code && currentTime == other.currentTime && text == other.text && version == other.version && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+    }
+
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(code, currentTime, text, version, data, additionalProperties) }
+    /* spotless:on */
+
+    override fun hashCode(): Int = hashCode
+
+    override fun toString() =
+        "ConfigRetrieveResponse{code=$code, currentTime=$currentTime, text=$text, version=$version, data=$data, additionalProperties=$additionalProperties}"
 }
