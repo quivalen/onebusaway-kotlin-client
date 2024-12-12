@@ -5,7 +5,6 @@ package com.test1obw.api.models
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.test1obw.api.core.Enum
 import com.test1obw.api.core.JsonField
-import com.test1obw.api.core.JsonValue
 import com.test1obw.api.core.NoAutoDetect
 import com.test1obw.api.core.http.Headers
 import com.test1obw.api.core.http.QueryParams
@@ -286,31 +285,19 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Code && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            val VEHICLE_NEVER_CAME = Code(JsonField.of("vehicle_never_came"))
+            val VEHICLE_NEVER_CAME = of("vehicle_never_came")
 
-            val VEHICLE_CAME_EARLY = Code(JsonField.of("vehicle_came_early"))
+            val VEHICLE_CAME_EARLY = of("vehicle_came_early")
 
-            val VEHICLE_CAME_LATE = Code(JsonField.of("vehicle_came_late"))
+            val VEHICLE_CAME_LATE = of("vehicle_came_late")
 
-            val WRONG_HEADSIGN = Code(JsonField.of("wrong_headsign"))
+            val WRONG_HEADSIGN = of("wrong_headsign")
 
-            val VEHICLE_DOES_NOT_STOP_HERE = Code(JsonField.of("vehicle_does_not_stop_here"))
+            val VEHICLE_DOES_NOT_STOP_HERE = of("vehicle_does_not_stop_here")
 
-            val OTHER = Code(JsonField.of("other"))
+            val OTHER = of("other")
 
             fun of(value: String) = Code(JsonField.of(value))
         }
@@ -357,6 +344,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Code && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {
